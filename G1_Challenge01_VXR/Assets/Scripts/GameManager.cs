@@ -8,7 +8,7 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     public GameObject[] aliens;
 
-    public int numberOfAliens = 20;
+    public int numberOfAliens = 70;
 
 
     private float road1WidthX1 = -26f;
