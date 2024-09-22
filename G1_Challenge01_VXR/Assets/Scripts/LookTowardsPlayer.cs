@@ -10,11 +10,26 @@ public class LookTowardsPlayer : MonoBehaviour
     public float rotateSpeed = 5f;
     public float moveRadious = 25f;
     public float speed = 1f;
+
+    string alienName;
+    private bool isColliding = false;
+    private Animator animator;
+    private int doSomeAction = 0;
+
+    public float cooldownTime = 10f;  
+    private float timeSinceLastAction = 0f;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        
+        alienName = transform.name.Replace("(Clone)", "");
+        Debug.Log(alienName);
+        if (alienName != "Freaky Alien")
+        {
+            animator = GetComponent<Animator>();
+        }
+
     }
 
     // Update is called once per frame
@@ -25,19 +40,51 @@ public class LookTowardsPlayer : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(direction);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotateSpeed*Time.deltaTime);
-
-        if (distanceToAlien <= moveRadious) 
+        if (distanceToAlien <= moveRadious && distanceToAlien > 5f && !isColliding)
         {
-            if (distanceToAlien > 5f)
+            if (alienName != "Freaky Alien")
             {
-                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+                animator.SetBool("isMoving", true);
             }
-            else 
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+        }
+        else
+        {
+            if (alienName != "Freaky Alien")
             {
-                Vector3 moveAwayPosition = transform.position - direction.normalized * speed * Time.deltaTime;
-                transform.position = moveAwayPosition;
+                animator.SetBool("isMoving", false);
+                timeSinceLastAction += Time.deltaTime;
+
+                if (timeSinceLastAction >= cooldownTime)
+                {
+                    if (Random.Range(0, 20) < 5)
+                    {
+                        randomMotion();
+                        timeSinceLastAction = 0f;
+                    }
+                }
+
             }
         }
+
+
+    }
+    private void randomMotion()
+    {
+        doSomeAction = Random.Range(0, 4);
+        animator.SetInteger("doSomeAction", doSomeAction);
         
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Alien"))
+        {
+            isColliding = true;
+        }
+        else
+        {
+            isColliding = false;
+        }
     }
 }
