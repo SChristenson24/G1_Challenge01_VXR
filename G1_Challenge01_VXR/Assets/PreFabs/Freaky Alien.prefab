@@ -157,7 +157,7 @@ MonoBehaviour:
   speed: 5
   cooldownTime: 10
   alienAudioSource: {fileID: 0}
-  audioVolume: 0.3
+  audioVolume: 0.1
 --- !u!82 &6720734454813061341
 AudioSource:
   m_ObjectHideFlags: 0
@@ -170,7 +170,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ce0840065a566bc4c9ced27c4da8e1ce, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.11
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0

@@ -2052,12 +2052,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  vrCamera: {fileID: 0}
   rotateSpeed: 5
   moveRadius: 25
   speed: 5
   cooldownTime: 10
   alienAudioSource: {fileID: 0}
-  audioVolume: 0.3
+  audioVolume: 0.1
 --- !u!95 &5514298065295368971
 Animator:
   serializedVersion: 5
@@ -2091,7 +2092,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ddbe75767836a7f429bcac3fffd1bb05, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.19
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
