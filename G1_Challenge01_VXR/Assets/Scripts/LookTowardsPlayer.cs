@@ -1,17 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Controls;
 
 public class LookTowardsPlayer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public GameObject player;
+    public GameObject player;  // This is the XR Rig or player rig
+    public Camera vrCamera;    // Reference to the VR Main Camera (the player's head)
     public float rotateSpeed = 5f;
-    public float moveRadious = 25f;
+    public float moveRadius = 25f;
     public float speed = 1f;
 
-    string alienName;
+    private string alienName;
     private bool isColliding = false;
     private Animator animator;
     private int doSomeAction = 0;
@@ -19,55 +18,81 @@ public class LookTowardsPlayer : MonoBehaviour
     public float cooldownTime = 10f;  
     private float timeSinceLastAction = 0f;
 
+    public AudioSource alienAudioSource;  // Reference to AudioSource
+
+    private bool isPlayerLookingAtAlien = false;
+    public float audioVolume = 0.3f;      // Set a reasonable volume level for alien audio
+
     void Start()
     {
-        //Getting the player object using tags
+        // Getting the player object using tags
         player = GameObject.FindGameObjectWithTag("Player");
 
+        // Find the Main Camera inside the XR Rig (you'll need to assign it in the Inspector or find it dynamically)
+        vrCamera = Camera.main;  // You can assign this dynamically if you have only one camera
+
+        if (vrCamera == null)
+        {
+            Debug.LogError("VR Camera not found! Please assign the main camera manually.");
+        }
+
+        // Get the AudioSource component attached to the alien
+        alienAudioSource = GetComponent<AudioSource>();
+        if (alienAudioSource == null)
+        {
+            Debug.LogError("No AudioSource found on alien!");
+        }
+        else
+        {
+            alienAudioSource.volume = audioVolume;  // Set default volume
+            alienAudioSource.spatialBlend = 0.3f;   // Less 3D effect, closer to 2D audio
+            alienAudioSource.minDistance = 1f;      // Set the min distance to avoid quick drop in volume
+            alienAudioSource.maxDistance = 20f;     // Set a reasonable max distance
+            alienAudioSource.dopplerLevel = 0f;     // Disable Doppler effect to avoid sound shifts
+            alienAudioSource.loop = true;           // Ensure the audio loops
+        }
+
+        // Handle animator and other alien setup logic
         alienName = transform.name.Replace("(Clone)", "");
 
-        //Freaky Alien doesn't have animations, so this if statement makes sure we don't call on animator for it
+        // Freaky Alien doesn't have animations, so this if statement makes sure we don't call on animator for it
         if (alienName != "Freaky Alien")
         {
             animator = GetComponent<Animator>();
         }
-
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Vector3 direction = player.transform.position - transform.position; //Gets the direction alien has to move
+        Vector3 direction = player.transform.position - transform.position; // Gets the direction alien has to move
         float distanceToAlien = Vector3.Distance(player.transform.position, transform.position);
 
-        //Code to make the alien look towards the player
+        // Code to make the alien look towards the player
         Quaternion lookRotation = Quaternion.LookRotation(direction); 
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotateSpeed*Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotateSpeed * Time.deltaTime);
 
-        //Moving towards alien if outside a certain radious, but inside another
-        //Not moving if colliding because that creates issues with animations and collisions
-        if (distanceToAlien <= moveRadious && distanceToAlien > 5f && !isColliding)
+        // Move towards player if within range and not colliding
+        if (distanceToAlien <= moveRadius && distanceToAlien > 5f && !isColliding)
         {
             if (alienName != "Freaky Alien")
             {
-                //Setting the animation true when moving towards player
+                // Setting the animation true when moving towards player
                 animator.SetBool("isMoving", true);
             }
 
-            //Moving towards player
+            // Moving towards player
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
         else
         {
-            //Else statement when not moving
-            //Alien is near the player now
-            //------ Add the sounds here ------ 
+            // Else statement when not moving
+            // Alien is near the player now
             if (alienName != "Freaky Alien")
             {
-                //Setting moving animations false
+                // Setting moving animations to false
                 animator.SetBool("isMoving", false);
 
-                //This code block is for making the aliens have random animations and actions sometimes
+                // This code block is for making the aliens have random animations and actions sometimes
                 timeSinceLastAction += Time.deltaTime;
 
                 if (timeSinceLastAction >= cooldownTime)
@@ -78,22 +103,46 @@ public class LookTowardsPlayer : MonoBehaviour
                         timeSinceLastAction = 0f;
                     }
                 }
-
             }
         }
 
+        // Check if the player is looking at the alien
+        isPlayerLookingAtAlien = IsPlayerLookingAtAlien();
 
+        // Control audio playback based on whether the player is looking at the alien
+        if (isPlayerLookingAtAlien && !alienAudioSource.isPlaying)
+        {
+            alienAudioSource.Play();
+        }
+        else if (!isPlayerLookingAtAlien && alienAudioSource.isPlaying)
+        {
+            alienAudioSource.Pause();  // Pause audio if player looks away
+        }
     }
+
+    // Checks if the player is looking at the alien using the VR Camera
+    private bool IsPlayerLookingAtAlien()
+    {
+        if (vrCamera == null) return false;
+
+        // Get the direction the VR camera is looking at
+        Vector3 cameraForward = vrCamera.transform.forward;
+        Vector3 directionToAlien = transform.position - vrCamera.transform.position;
+
+        // Check if the angle between the VR camera's forward direction and the alien is within a threshold (e.g., 60 degrees)
+        float angle = Vector3.Angle(cameraForward, directionToAlien);
+        return angle < 60f;
+    }
+
     private void randomMotion()
     {
         doSomeAction = Random.Range(0, 4);
         animator.SetInteger("doSomeAction", doSomeAction);
-        
-
     }
+
     private void OnCollisionEnter(Collision collision)
     {
-        //Detecting Collisions
+        // Detecting Collisions
         if (collision.gameObject.CompareTag("Alien"))
         {
             isColliding = true;
