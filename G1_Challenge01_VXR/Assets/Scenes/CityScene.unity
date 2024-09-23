@@ -4289,6 +4289,8 @@ GameObject:
   - component: {fileID: 134916496}
   - component: {fileID: 134916500}
   - component: {fileID: 134916499}
+  - component: {fileID: 134916501}
+  - component: {fileID: 134916502}
   m_Layer: 0
   m_Name: XRRig
   m_TagString: Untagged
@@ -4309,9 +4311,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CameraFloorOffsetObject: {fileID: 2010315615}
-  m_RequestedTrackingMode: 0
+  m_RequestedTrackingMode: 2
   m_TrackingOriginMode: 1
-  m_TrackingSpace: 0
+  m_TrackingSpace: 1
   m_CameraYOffset: 1.36144
 --- !u!4 &134916497
 Transform:
@@ -4321,14 +4323,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 134916495}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -32.75, y: 0.23399997, z: -29.75}
+  m_LocalRotation: {x: 0.0052359584, y: 0, z: 0, w: 0.9999863}
+  m_LocalPosition: {x: -35, y: 1.1999998, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2010315616}
+  - {fileID: 288851162}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.6, y: 0, z: 0}
 --- !u!143 &134916499
 CharacterController:
   m_ObjectHideFlags: 0
@@ -4371,6 +4374,50 @@ MonoBehaviour:
   jumpHeight: 3
   gravity: -9.81
   fallMultiplier: 2.5
+--- !u!136 &134916501
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134916495}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &134916502
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134916495}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &136958643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10715,7 +10762,6 @@ GameObject:
   - component: {fileID: 288851164}
   - component: {fileID: 288851163}
   - component: {fileID: 288851167}
-  - component: {fileID: 288851166}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Player
@@ -10732,12 +10778,12 @@ Transform:
   m_GameObject: {fileID: 288851161}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.13, y: -0.6358881, z: 4.23}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 270533960}
-  m_Father: {fileID: 2010315616}
+  m_Father: {fileID: 134916497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &288851163
 CapsuleCollider:
@@ -10812,21 +10858,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288851161}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &288851166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 288851161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5d6d43936cc0bb47a53bbcca3bfa72d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  gravity: -9.81
-  jumpHeight: 1.5
 --- !u!143 &288851167
 CharacterController:
   m_ObjectHideFlags: 0
@@ -91256,11 +91287,10 @@ Transform:
   m_GameObject: {fileID: 2010315615}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.36144, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 288851162}
+  m_Children: []
   m_Father: {fileID: 134916497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2011332325 stripped
