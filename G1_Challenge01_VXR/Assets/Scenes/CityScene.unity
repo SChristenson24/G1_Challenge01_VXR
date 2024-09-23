@@ -7347,29 +7347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fcd2d0ed406e4e0093d1f6f1bf7c603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text: "SIMPLE HELVETICA\n \nby Studio Pepwuper"
-  CharacterSpacing: 4
-  LineSpacing: 22
-  SpaceWidth: 8
-  BoxColliderIsTrigger: 0
-  Mass: 1
-  Drag: 0
-  AngularDrag: 0.05
-  UseGravity: 1
-  IsKinematic: 0
-  Interpolation: 0
-  CollisionDetection: 0
-  FreezePositionX: 0
-  FreezePositionY: 0
-  FreezePositionZ: 0
-  FreezeRotationX: 0
-  FreezeRotationY: 0
-  FreezeRotationZ: 0
-  CharXLocation: 249.89005
-  CharYLocation: -44
-  ObjScale: {x: 1, y: 1, z: 1}
-  BoxColliderAdded: 0
-  RigidbodyAdded: 0
 --- !u!4 &193814728
 Transform:
   m_ObjectHideFlags: 0
@@ -16834,29 +16811,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fcd2d0ed406e4e0093d1f6f1bf7c603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text: "SIMPLE HELVETICA\n \nby Studio Pepwuper"
-  CharacterSpacing: 4
-  LineSpacing: 22
-  SpaceWidth: 8
-  BoxColliderIsTrigger: 0
-  Mass: 1
-  Drag: 0
-  AngularDrag: 0.05
-  UseGravity: 1
-  IsKinematic: 0
-  Interpolation: 0
-  CollisionDetection: 0
-  FreezePositionX: 0
-  FreezePositionY: 0
-  FreezePositionZ: 0
-  FreezeRotationX: 0
-  FreezeRotationY: 0
-  FreezeRotationZ: 0
-  CharXLocation: 249.89005
-  CharYLocation: -44
-  ObjScale: {x: 1, y: 1, z: 1}
-  BoxColliderAdded: 0
-  RigidbodyAdded: 0
 --- !u!4 &442848374
 Transform:
   m_ObjectHideFlags: 0
@@ -36309,14 +36263,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1429580138241874, guid: 7a3ef98fe4aee4047a8c214d0c33f19b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 895774408}
+      addedObject: {fileID: 895774412}
   m_SourcePrefab: {fileID: 100100000, guid: 7a3ef98fe4aee4047a8c214d0c33f19b, type: 3}
 --- !u!4 &895774407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4634980916561974, guid: 7a3ef98fe4aee4047a8c214d0c33f19b, type: 3}
   m_PrefabInstance: {fileID: 895774406}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &895774408
+--- !u!95 &895774412
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -36326,7 +36280,7 @@ Animator:
   m_GameObject: {fileID: 781968383}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1b93f2cbd9fe599459191e70694d7155, type: 2}
+  m_Controller: {fileID: 9100000, guid: 59e76603a44ad29419bf6e99902f3976, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -47628,7 +47582,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 1375731711
+    rgba: 1375720026
   m_fontColor: {r: 0.3529412, g: 0.8235295, b: 1, a: 0.31764707}
   m_enableVertexGradient: 0
   m_colorMode: 3
