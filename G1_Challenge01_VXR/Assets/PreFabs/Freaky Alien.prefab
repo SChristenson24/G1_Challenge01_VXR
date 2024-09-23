@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  vrCamera: {fileID: 0}
   rotateSpeed: 5
   moveRadius: 25
   speed: 5
@@ -167,9 +168,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 98a597a2a4ed0a24daf2fc9d99cd7bbf, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ce0840065a566bc4c9ced27c4da8e1ce, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.138
+  m_Volume: 0.11
   m_Pitch: 1
   Loop: 0
   Mute: 0

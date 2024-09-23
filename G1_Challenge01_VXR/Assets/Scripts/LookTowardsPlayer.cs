@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class LookTowardsPlayer : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject player;  // This is the XR Rig or player rig
+    public Camera vrCamera;    // Reference to the VR Main Camera (the player's head)
     public float rotateSpeed = 5f;
     public float moveRadius = 25f;
     public float speed = 1f;
@@ -23,34 +24,41 @@ public class LookTowardsPlayer : MonoBehaviour
     public float audioVolume = 0.3f;      // Set a reasonable volume level for alien audio
 
     void Start()
-{
-    // Automatically find the player by tag
-    player = GameObject.FindGameObjectWithTag("Player");
-
-    // Get the AudioSource component attached to the alien
-    alienAudioSource = GetComponent<AudioSource>();
-    if (alienAudioSource == null)
     {
-        Debug.LogError("No AudioSource found on alien!");
-    }
-    else
-    {
-        alienAudioSource.volume = audioVolume;  // Set default volume
-        alienAudioSource.spatialBlend = 0.3f;   // Less 3D effect, closer to 2D audio
-        alienAudioSource.minDistance = 1f;      // Set the min distance to avoid quick drop in volume
-        alienAudioSource.maxDistance = 20f;     // Set a reasonable max distance
-        alienAudioSource.dopplerLevel = 0f;     // Disable Doppler effect to avoid sound shifts
-        alienAudioSource.loop = true;           // Ensure the audio loops
-    }
+        // Automatically find the player by tag
+        player = GameObject.FindGameObjectWithTag("Player");
 
-    // Handle animator and other alien setup logic
-    alienName = transform.name.Replace("(Clone)", "");
-    if (alienName != "Freaky Alien")
-    {
-        animator = GetComponent<Animator>();
-    }
-}
+        // Find the Main Camera inside the XR Rig (you'll need to assign it in the Inspector or find it dynamically)
+        vrCamera = Camera.main;  // You can assign this dynamically if you have only one camera
 
+        if (vrCamera == null)
+        {
+            Debug.LogError("VR Camera not found! Please assign the main camera manually.");
+        }
+
+        // Get the AudioSource component attached to the alien
+        alienAudioSource = GetComponent<AudioSource>();
+        if (alienAudioSource == null)
+        {
+            Debug.LogError("No AudioSource found on alien!");
+        }
+        else
+        {
+            alienAudioSource.volume = audioVolume;  // Set default volume
+            alienAudioSource.spatialBlend = 0.3f;   // Less 3D effect, closer to 2D audio
+            alienAudioSource.minDistance = 1f;      // Set the min distance to avoid quick drop in volume
+            alienAudioSource.maxDistance = 20f;     // Set a reasonable max distance
+            alienAudioSource.dopplerLevel = 0f;     // Disable Doppler effect to avoid sound shifts
+            alienAudioSource.loop = true;           // Ensure the audio loops
+        }
+
+        // Handle animator and other alien setup logic
+        alienName = transform.name.Replace("(Clone)", "");
+        if (alienName != "Freaky Alien")
+        {
+            animator = GetComponent<Animator>();
+        }
+    }
 
     void Update()
     {
@@ -89,7 +97,7 @@ public class LookTowardsPlayer : MonoBehaviour
         }
 
         // Check if the player is looking at the alien
-        isPlayerLookingAtAlien = IsPlayerLookingAtAlien(direction);
+        isPlayerLookingAtAlien = IsPlayerLookingAtAlien();
 
         // Control audio playback based on whether the player is looking at the alien
         if (isPlayerLookingAtAlien && !alienAudioSource.isPlaying)
@@ -102,13 +110,17 @@ public class LookTowardsPlayer : MonoBehaviour
         }
     }
 
-    // Checks if the player is looking at the alien
-    private bool IsPlayerLookingAtAlien(Vector3 directionToAlien)
+    // Checks if the player is looking at the alien using the VR Camera
+    private bool IsPlayerLookingAtAlien()
     {
-        Vector3 playerForward = player.transform.forward;
-        float angle = Vector3.Angle(playerForward, directionToAlien);
+        if (vrCamera == null) return false;
 
-        // Check if the angle between the player's forward direction and the alien is within a threshold (e.g., 60 degrees)
+        // Get the direction the VR camera is looking at
+        Vector3 cameraForward = vrCamera.transform.forward;
+        Vector3 directionToAlien = transform.position - vrCamera.transform.position;
+
+        // Check if the angle between the VR camera's forward direction and the alien is within a threshold (e.g., 60 degrees)
+        float angle = Vector3.Angle(cameraForward, directionToAlien);
         return angle < 60f;
     }
 
