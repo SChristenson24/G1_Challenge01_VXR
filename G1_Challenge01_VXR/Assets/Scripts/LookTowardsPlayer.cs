@@ -25,7 +25,7 @@ public class LookTowardsPlayer : MonoBehaviour
 
     void Start()
     {
-        // Automatically find the player by tag
+        // Getting the player object using tags
         player = GameObject.FindGameObjectWithTag("Player");
 
         // Find the Main Camera inside the XR Rig (you'll need to assign it in the Inspector or find it dynamically)
@@ -54,6 +54,8 @@ public class LookTowardsPlayer : MonoBehaviour
 
         // Handle animator and other alien setup logic
         alienName = transform.name.Replace("(Clone)", "");
+
+        // Freaky Alien doesn't have animations, so this if statement makes sure we don't call on animator for it
         if (alienName != "Freaky Alien")
         {
             animator = GetComponent<Animator>();
@@ -62,11 +64,11 @@ public class LookTowardsPlayer : MonoBehaviour
 
     void Update()
     {
-        Vector3 direction = player.transform.position - transform.position;
+        Vector3 direction = player.transform.position - transform.position; // Gets the direction alien has to move
         float distanceToAlien = Vector3.Distance(player.transform.position, transform.position);
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
 
-        // Rotate towards the player
+        // Code to make the alien look towards the player
+        Quaternion lookRotation = Quaternion.LookRotation(direction); 
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotateSpeed * Time.deltaTime);
 
         // Move towards player if within range and not colliding
@@ -74,15 +76,23 @@ public class LookTowardsPlayer : MonoBehaviour
         {
             if (alienName != "Freaky Alien")
             {
+                // Setting the animation true when moving towards player
                 animator.SetBool("isMoving", true);
             }
+
+            // Moving towards player
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
         else
         {
+            // Else statement when not moving
+            // Alien is near the player now
             if (alienName != "Freaky Alien")
             {
+                // Setting moving animations to false
                 animator.SetBool("isMoving", false);
+
+                // This code block is for making the aliens have random animations and actions sometimes
                 timeSinceLastAction += Time.deltaTime;
 
                 if (timeSinceLastAction >= cooldownTime)
@@ -132,6 +142,7 @@ public class LookTowardsPlayer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Detecting Collisions
         if (collision.gameObject.CompareTag("Alien"))
         {
             isColliding = true;
